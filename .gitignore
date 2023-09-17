@@ -2,3 +2,6 @@
 **/images/
 **/config/
 **/bin/
+.env
+Dockerfile
+docker-compose.yml
