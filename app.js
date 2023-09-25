@@ -6,12 +6,12 @@
 var path = require('path');
 
 // Configs
-const { APP_PORT, MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT } = require("./config/appConfig");
+const { APP_PORT, MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT } = require("./src/config/appConfig");
 
 // Swagger
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const swaggerJsonOptions = require("./documentation/swaggerJsonOptions");
+const swaggerJsonOptions = require("./src/documentation/swaggerJsonOptions");
 
 // Express
 var express = require('express');
@@ -26,35 +26,35 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 // Authentication
-var passportAuthenticator = require('./authentication/passportAuthenticator');
-var localAuthenticator = require('./authentication/localAuthenticator');
+var passportAuthenticator = require('./src/authentication/passportAuthenticator');
+var localAuthenticator = require('./src/authentication/localAuthenticator');
 var passport = require('passport');
 var session = require('express-session');
-var cookieKey = require('./config/cookieKey.json');
+var cookieKey = require('./src/config/cookieKey.json');
 
 // Hashing
-var BcryptHasher = require('./hasher/BcryptHasher')
+var BcryptHasher = require('./src/hasher/BcryptHasher')
 
 // Routes
-var indexRouter = require('./routes/index');
-var authenticationRouter = require('./routes/authenticationRoutes');
-var usersRouter = require('./routes/userRoutes');
-var artistsRouter = require('./routes/artistRoutes');
-var artworksRouter = require('./routes/artworkRoutes');
+var indexRouter = require('./src/routes/index');
+var authenticationRouter = require('./src/routes/authenticationRoutes');
+var usersRouter = require('./src/routes/userRoutes');
+var artistsRouter = require('./src/routes/artistRoutes');
+var artworksRouter = require('./src/routes/artworkRoutes');
 
 // Controllers
-var UserController = require('./controllers/UserController');
-var ArtistController = require('./controllers/ArtistController');
-var ArtworkController = require('./controllers/ArtworkController');
+var UserController = require('./src/controllers/UserController');
+var ArtistController = require('./src/controllers/ArtistController');
+var ArtworkController = require('./src/controllers/ArtworkController');
 
 // Data access
-var UserMongoDataAccess = require('./persistence/UserMongoDataAccess');
-var ArtistMongoDataAccess = require('./persistence/ArtistMongoDataAccess');
-var ArtworkMongoDataAccess = require('./persistence/ArtworkMongoDataAccess');
+var UserMongoDataAccess = require('./src/persistence/UserMongoDataAccess');
+var ArtistMongoDataAccess = require('./src/persistence/ArtistMongoDataAccess');
+var ArtworkMongoDataAccess = require('./src/persistence/ArtworkMongoDataAccess');
 
 // Database
 var mongoose = require('mongoose');
-var databaseConnection = require('./config/databaseConnection.json');
+var databaseConnection = require('./src/config/databaseConnection.json');
 
 //**********************************************************************************************************************************************************************************************************************************************/
 // Swagger Setup
@@ -87,7 +87,7 @@ container.register({
 //**********************************************************************************************************************************************************************************************************************************************/
 
 // Database setup
-mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`)
+mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/art-gallery?authSource=admin`)
 .then(() => console.log("Successfully connected to DB"))
 .catch((e) => console.log(e));
 

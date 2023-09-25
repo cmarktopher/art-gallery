@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon -L src/app.js"
+    "dev": "nodemon -L ./app.js"
   },
   "dependencies": {
     "awilix": "^8.0.1",

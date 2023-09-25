@@ -1,6 +1,8 @@
 const express = require('express');
 const passport = require('passport');
-const redirectionUrl = require('../config/redirection.json')
+
+// Since this may not be 
+const redirectionUrl = require('../redirection/redirection.json')
 
 const authenticationRoutes = () => {
 
