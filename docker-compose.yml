@@ -1,0 +1,30 @@
+version: "1"
+services:
+  art-gallery-api:
+    build:
+      context: .
+    volumes:
+      - ./:/art-gallery-api
+      - node_modules:/art-gallery-api/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - MONGO_IP=art-gallery-database
+      - MONGO_PORT=27017
+      - MONGO_USER=mongouser
+      - MONGO_PASSWORD=password
+    command: npm run dev
+  art-gallery-database:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongouser
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-db:/data/db
+    ports:
+      - "27018:27017"
+volumes:
+  mongo-db:
+  node_modules:

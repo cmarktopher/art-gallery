@@ -4,6 +4,3 @@
 **/bin/
 **/temp/
 .env
-Dockerfile
-docker-compose.yml
-.dockerignore
