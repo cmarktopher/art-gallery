@@ -1,6 +1,7 @@
-version: "1"
+version: "3"
 services:
   art-gallery-api:
+    image: 127.0.0.1:5000/art-gallery-express-app
     build:
       context: .
     volumes:
