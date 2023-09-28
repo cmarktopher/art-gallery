@@ -1,6 +1,5 @@
 **/node_modules/
 **/images/
-**/config/
 **/bin/
 **/temp/
 .env

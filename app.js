@@ -6,7 +6,7 @@
 var path = require('path');
 
 // Configs
-const { APP_PORT, MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT } = require("./src/config/appConfig");
+const { APP_PORT, MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT, COOKIE_KEY } = require("./src/config/appConfig");
 
 // Swagger
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -30,7 +30,6 @@ var passportAuthenticator = require('./src/authentication/passportAuthenticator'
 var localAuthenticator = require('./src/authentication/localAuthenticator');
 var passport = require('passport');
 var session = require('express-session');
-var cookieKey = require('./src/config/cookieKey.json');
 
 // Hashing
 var BcryptHasher = require('./src/hasher/BcryptHasher')
@@ -108,7 +107,7 @@ localAuthenticator(container);
 
 // Cookie Session
 var cookieSessionProperties = {
-  secret: cookieKey.cookieSession.cookieKey,
+  secret: COOKIE_KEY,
   resave: false,
   saveUninitialized: true,
   cookie: {}
