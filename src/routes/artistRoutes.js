@@ -29,6 +29,27 @@ const artistRoutes = (container) => {
     
     /**
      * @swagger
+     * /artists:
+     *      get:
+     *          tags:
+     *              - Artists
+     *          summary: Retrieve all artists sorted by first name in ascending order.
+     *          description: This will retrieve all artists stored in the database sorted by first name in ascending order.
+     *          responses:
+     *              200:
+     *                  description: A list of first name sorted artists in ascending order.
+     *                  content:
+     *                      application/json:
+     *                          schema:
+     *                              type: array
+     *                              items:
+     *                                  $ref: '#/components/schemas/Artist'
+     *     
+     */
+    router.get('/firstNameSortedAsc', checkAuthenticated, (req, res, next) => artistController.getAllArtistsFirstNameSortedAsc(req, res, next));
+
+    /**
+     * @swagger
      * /artists/{id}:
      *      get:
      *          tags:

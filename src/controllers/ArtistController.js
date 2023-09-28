@@ -15,6 +15,19 @@ class ArtistController {
     }
 
     /**
+     * Get all artists sorted by first name in ascending order.
+     */
+    async getAllArtistsFirstNameSortedAsc(req, res, next){
+
+        const allArtists = await this.artistDataAccess.getAllArtists();
+
+        // Perform the sort - I believe mongoose has a method for sorting which probably is more efficient but I want to do this in the app itself to see if Docker swarm replicas can improve performance.
+        allArtists.sort((a, b) => a.firstName.toLowerCase() < b.firstName.toLowerCase() ? -1 : 1);
+
+        return res.status(200).json(allArtists);
+    }
+
+    /**
      * Get artist by id
      */
     async getArtistById(req, res, next){
