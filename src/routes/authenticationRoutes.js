@@ -26,37 +26,37 @@ const authenticationRoutes = () => {
     });
 
 
-    /**
-     * @swagger
-     * /authentication/google:
-     *      get:
-     *          tags:
-     *              - Authentication
-     *          summary: Authentication using google OAuth2 authentication.
-     *          description: Authentication using google OAuth2 authentication. This is intended to be the primary authentication method for users on the front end side.
-     */
-    router.get('/google', passport.authenticate('google', {
+    // /**
+    //  * @swagger
+    //  * /authentication/google:
+    //  *      get:
+    //  *          tags:
+    //  *              - Authentication
+    //  *          summary: Authentication using google OAuth2 authentication.
+    //  *          description: Authentication using google OAuth2 authentication. This is intended to be the primary authentication method for users on the front end side.
+    //  */
+    // router.get('/google', passport.authenticate('google', {
 
-        scope: ['profile'],
-        prompt: 'select_account'
-    }));
+    //     scope: ['profile'],
+    //     prompt: 'select_account'
+    // }));
 
-    /**
-     * @swagger
-     * /authentication/google:
-     *      get:
-     *          tags:
-     *              - Authentication
-     *          summary: Redirect from google OAuth2 authentication.
-     *          description: Redirect from google OAuth2 authentication.
-     *          responses:
-     *              200:
-     *                  description: Will redirect to the provided redirect path.
-     */
-    router.get('/google/redirect', passport.authenticate('google'), (req, res, next) => {
+    // /**
+    //  * @swagger
+    //  * /authentication/google:
+    //  *      get:
+    //  *          tags:
+    //  *              - Authentication
+    //  *          summary: Redirect from google OAuth2 authentication.
+    //  *          description: Redirect from google OAuth2 authentication.
+    //  *          responses:
+    //  *              200:
+    //  *                  description: Will redirect to the provided redirect path.
+    //  */
+    // router.get('/google/redirect', passport.authenticate('google'), (req, res, next) => {
 
-        res.redirect(redirectionUrl.authenticatedRedirection);
-    })
+    //     res.redirect(redirectionUrl.authenticatedRedirection);
+    // })
 
     /**
      * @swagger

@@ -54,7 +54,6 @@ var ArtworkMongoDataAccess = require('./src/persistence/ArtworkMongoDataAccess')
 
 // Database
 var mongoose = require('mongoose');
-var databaseConnection = require('./src/config/databaseConnection.json');
 
 //**********************************************************************************************************************************************************************************************************************************************/
 // Swagger Setup
@@ -104,7 +103,7 @@ app.use(
   swaggerUi.setup(swaggerOptions));
 
 // Initialize our authenticators
-passportAuthenticator(container);
+//passportAuthenticator(container);
 localAuthenticator(container);
 
 // Cookie Session
