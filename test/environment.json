@@ -22,13 +22,13 @@
 		},
 		{
 			"key": "primary_admin_username",
-			"value": "markprimaryadminusername",
+			"value": "developmentAdminUserName",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "primary_admin_password",
-			"value": "markprimaryadminpassword",
+			"value": "developmentAdminPassword",
 			"type": "secret",
 			"enabled": true
 		},
