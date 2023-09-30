@@ -56,6 +56,8 @@ Use this to exit swarm mode.
 
 ### Running end-end tests
 
+#### Running locally.
+
 Make sure node, newman and htmlextra are installed.
 
 To run the end-to-end tests while the express.js application and database are running in their respective containers:
@@ -71,6 +73,17 @@ To run the end-to-end tests while the express.js application and database are ru
     newman run collection.json -e environment.json -r htmlextra
     ```
 3. Check the newman folder for the html output.
+
+
+#### Running using Docker
+
+Not implemented yet.
+
+I had this initially but there were a few complications with adding this as a service:
+- Tests were running before backend services started.
+- I will need to introduce a way to check for the above issue.
+- I think running this outside of the compose system and making sure it can connect to the correct network could be a viable solution.
+- Or, I could keep this as a service in the same compose file and introduce a delay or a check to ensure other services have started.
 
 ### Running Python scripts.
 
