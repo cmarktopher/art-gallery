@@ -1,0 +1,19 @@
+For adding 1000 entries:
+
+1: 117.97768235206604 seconds
+
+2: 117.17419075965881 seconds
+
+4: 125.80975317955017 seconds
+
+6: 136.27848958969116 seconds
+
+For getting a sorted list of 1000 artists by first name through 1000 separate requests.
+
+1:  87.33050966262817 seconds
+
+2:  94.10065174102783 seconds
+
+4:  100.49544715881348 seconds
+
+6:  110.52737426757812 seconds

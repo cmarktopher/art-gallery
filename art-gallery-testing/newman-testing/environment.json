@@ -1,0 +1,153 @@
+{
+	"id": "90897f93-a60b-4e98-bfcb-02b1f807a539",
+	"name": "Art Gallery",
+	"values": [
+		{
+			"key": "api-host",
+			"value": "localhost",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "port",
+			"value": "3000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "unauthenticated-error-message",
+			"value": "User is not authenticated",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "primary_admin_username",
+			"value": "developmentAdminUserName",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "primary_admin_password",
+			"value": "developmentAdminPassword",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "secondary_user_username",
+			"value": "chrisprimaryadminusername",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "secondary_user_password",
+			"value": "chrisprimaryadminpassword",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "secondary_user_first_name",
+			"value": "Chris",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "secondary_user_last_name",
+			"value": "Enriquez",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "secondary_admin_role",
+			"value": "Admin",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "secondary_regular_role",
+			"value": "User",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-user-id-1",
+			"value": "646b0e3589e44047ed08d085",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "incorrect_admin_username",
+			"value": "markwrongadminusername",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "incorrect_admin_password",
+			"value": "markwrongadminpassword",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artist-id-1",
+			"value": "6459cb6869034321bbacd0cd",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artist-first-name-1",
+			"value": "Mark",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artist-last-name-1",
+			"value": "Enriquez",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artist-first-name-2",
+			"value": "Chris",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artist-last-name-2",
+			"value": "Enriquez",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artwork-id-1",
+			"value": "6459cb6869034321bbacd0cd",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artwork-name",
+			"value": "Artwork 1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artwork-description",
+			"value": "A new artwork.",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artwork-creation_date",
+			"value": "02/02/2023",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "new-artwork-name-2",
+			"value": "Artwork 2",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-05-26T04:36:37.845Z",
+	"_postman_exported_using": "Postman/10.14.4"
+}
