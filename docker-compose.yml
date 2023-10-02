@@ -33,7 +33,8 @@ services:
     volumes:
       - mongo-db:/data/db
     ports:
-      - "27018:27017"
+      # Small note regarding this, I'm only exposing the port for the database so I can access it via MongoDBCompass so that I can see the entries being added - this should probably be removed in production since there's no need to expose the port since the app and database exist in the same docker network.
+      - "27018:27017" 
 
 volumes:
   mongo-db:
