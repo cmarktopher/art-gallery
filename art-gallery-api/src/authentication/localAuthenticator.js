@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local');
 const localAuthenticator = (container) => {
 
     const hasher = container.resolve('hasher');
-    const userDataAccessObject = container.resolve('userDataAccessObject');
+    const authenticationService = container.resolve('authenticationService');
 
     passport.serializeUser((id, done) => {
 
@@ -25,9 +25,8 @@ const localAuthenticator = (container) => {
         
         new LocalStrategy( async (username, password, done) => {
 
-            // Find the user by username
-            var currentUser = await userDataAccessObject.getUserByUserName(username);
-
+            // Find the user by username via the authentication service.
+            var currentUser = await authenticationService.requestUserByUserName(username);
             
             if (currentUser == null){
 
@@ -43,7 +42,7 @@ const localAuthenticator = (container) => {
                 // If we have successfully validated our password, we can move on and pass the current user's id
                 if (result){
 
-                    return done(null, currentUser.id);
+                    return done(null, currentUser._id);
                 }
                 else {
 
@@ -51,6 +50,7 @@ const localAuthenticator = (container) => {
                 }   
             } catch (error) {
 
+                console.log(error)
                 done(null, false);
             }
        

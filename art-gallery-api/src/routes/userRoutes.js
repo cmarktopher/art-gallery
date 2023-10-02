@@ -85,7 +85,7 @@ const userRoutes = (container) => {
      *              500:
      *                  $ref: '#/components/responses/InternalServerError' 
      */
-    router.get('/username/:userName', checkAuthenticated, checkAdminAuthorized, (req, res, next) => userController.getUserByUserName(req, res, next));
+    router.get('/username/:userName', (req, res, next) => userController.getUserByUserName(req, res, next));
     
     /**
      * @swagger

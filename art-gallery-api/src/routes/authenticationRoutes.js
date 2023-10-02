@@ -22,7 +22,7 @@ const authenticationRoutes = () => {
      */
     router.post('/local', passport.authenticate('local'), (req, res) => {
 
-        res.redirect(redirectionUrl.authenticatedRedirection);
+        res.status(200).send("Authentication was successful.");
     });
 
 

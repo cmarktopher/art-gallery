@@ -41,6 +41,9 @@ var usersRouter = require('./src/routes/userRoutes');
 var artistsRouter = require('./src/routes/artistRoutes');
 var artworksRouter = require('./src/routes/artworkRoutes');
 
+// Services
+const AuthenticationService = require('./src/services/authenticationService');
+
 // Controllers
 var UserController = require('./src/controllers/UserController');
 var ArtistController = require('./src/controllers/ArtistController');
@@ -53,6 +56,7 @@ var ArtworkMongoDataAccess = require('./src/persistence/ArtworkMongoDataAccess')
 
 // Database
 var mongoose = require('mongoose');
+
 
 //**********************************************************************************************************************************************************************************************************************************************/
 // Swagger Setup
@@ -75,6 +79,7 @@ container.register({
   userController: awilix.asClass(UserController),
   artistController: awilix.asClass(ArtistController),
   artworkController: awilix.asClass(ArtworkController),
+  authenticationService: awilix.asClass(AuthenticationService),
   userDataAccessObject: awilix.asClass(UserMongoDataAccess),
   artistDataAccessObject: awilix.asClass(ArtistMongoDataAccess),
   artworkDataAccessObject: awilix.asClass(ArtworkMongoDataAccess)
