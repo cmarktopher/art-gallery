@@ -6,7 +6,7 @@
 var path = require('path');
 
 // Configs
-const { APP_PORT, MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT, COOKIE_KEY } = require("./src/config/appConfig");
+const { APP_PORT, APP_NAME, MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT, COOKIE_KEY } = require("./src/config/appConfig");
 
 // Swagger
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -88,7 +88,7 @@ container.register({
 mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/art-gallery?authSource=admin`)
 .then(() => { 
   
-  console.log("Successfully connected to DB")
+  console.log(`${APP_NAME} has successfully connected to ${MONGO_IP} Mongo Database`)
 
   // TODO Move this logic to a different layer - perhaps a class in the service layer?
   async function setDefaultAdminUser(){
@@ -132,8 +132,9 @@ mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_
     }
   }
   
-  // Add a default admin user only if in development mode.
-  if (process.env.NODE_ENV === "development") {
+  // Add a default admin user only if in development mode and in user microservice.
+  // In terms of the microservice system, this needs to be handled better later on - maybe a specific app.js for users etc.
+  if (process.env.NODE_ENV === "development" && APP_NAME === "art-gallery-users-api") {
 
     setDefaultAdminUser();
   }

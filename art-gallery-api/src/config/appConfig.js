@@ -1,5 +1,6 @@
 module.exports = {
     APP_PORT: process.env.APP_PORT,
+    APP_NAME: process.env.APP_NAME,
     MONGO_IP: process.env.MONGO_IP,
     MONGO_PORT: process.env.MONGO_PORT,
     MONGO_USER: process.env.MONGO_USER,
