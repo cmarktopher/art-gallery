@@ -4,7 +4,8 @@ version: "3"
 
 services:
 
-  art-gallery-api:
+  # API for the artists api container.
+  art-gallery-api-artists:
     image: 127.0.0.1:5000/art-gallery-express-app
     build:
       context: ./art-gallery-api
@@ -16,7 +17,7 @@ services:
     environment:
       - APP_PORT=${APP_PORT:-3000}
       - NODE_ENV=${NODE_ENV:-development} 
-      - MONGO_IP=${MONGO_IP:-art-gallery-database}
+      - MONGO_IP=${MONGO_IP:-art-gallery-artists-database}
       - MONGO_PORT=${MONGO_PORT:-27017}
       - MONGO_USER=${MONGO_USER:-mongouser}
       - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
@@ -25,7 +26,52 @@ services:
       - art-gallery-database
     command: npm run dev
 
-  art-gallery-database:
+  # API for the artworks api container.
+  art-gallery-api-artworks:
+    image: 127.0.0.1:5000/art-gallery-express-app
+    build:
+      context: ./art-gallery-api
+    volumes:
+      - ./art-gallery-api:/art-gallery-api
+      - node_modules:/art-gallery-api/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - APP_PORT=${APP_PORT:-3000}
+      - NODE_ENV=${NODE_ENV:-development} 
+      - MONGO_IP=${MONGO_IP:-art-gallery-artworks-database}
+      - MONGO_PORT=${MONGO_PORT:-27017}
+      - MONGO_USER=${MONGO_USER:-mongouser}
+      - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
+      - COOKIE_KEY=${COOKIE_KEY:-superawesomecookiekeythatIshouldprobablyhandlebetterwithrandomstringsbutIjustneedsomethingquickfornow}
+    depends_on:
+      - art-gallery-database
+    command: npm run dev
+
+  # API for the users api container.
+  art-gallery-api-users:
+    image: 127.0.0.1:5000/art-gallery-express-app
+    build:
+      context: ./art-gallery-api
+    volumes:
+      - ./art-gallery-api:/art-gallery-api
+      - node_modules:/art-gallery-api/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - APP_PORT=${APP_PORT:-3000}
+      - NODE_ENV=${NODE_ENV:-development} 
+      - MONGO_IP=${MONGO_IP:-art-gallery-users-database}
+      - MONGO_PORT=${MONGO_PORT:-27017}
+      - MONGO_USER=${MONGO_USER:-mongouser}
+      - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
+      - COOKIE_KEY=${COOKIE_KEY:-superawesomecookiekeythatIshouldprobablyhandlebetterwithrandomstringsbutIjustneedsomethingquickfornow}
+    depends_on:
+      - art-gallery-database
+    command: npm run dev
+
+  # Database for the artists.
+  art-gallery-artists-database:
     image: mongo:latest
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongouser
@@ -33,7 +79,29 @@ services:
     volumes:
       - mongo-db:/data/db
     ports:
-      - "27018:27017"
+      - "27018:27017" # Remove port binding once we know this is working - Using this with mongo DB Compass to check data.
+  
+  # Database for the artists.
+  art-gallery-artworks-database:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongouser
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-db:/data/db
+    ports:
+      - "27019:27017" # Remove port binding once we know this is working - Using this with mongo DB Compass to check data.
+
+  # Database for the users.
+  art-gallery-users-database:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongouser
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-db:/data/db
+    ports:
+      - "27020:27017" # Remove port binding once we know this is working - Using this with mongo DB Compass to check data.
 
 volumes:
   mongo-db:
