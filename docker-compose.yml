@@ -75,6 +75,21 @@ services:
       - art-gallery-users-database
     command: npm run dev
 
+  # API for the authentication api container.
+  art-gallery-api-authentication:
+    image: 127.0.0.1:5000/art-gallery-authentication-api-service
+    build:
+      context: ./art-gallery-api
+    volumes:
+      - ./art-gallery-api:/art-gallery-api
+      - art-gallery-authentication-node_modules:/art-gallery-api/node_modules
+    environment:
+      - APP_PORT=${APP_PORT:-3000}
+      - APP_NAME=${APP_NAME:-art-gallery-authentication-api}
+      - NODE_ENV=${NODE_ENV:-development} 
+      - COOKIE_KEY=${COOKIE_KEY:-superawesomecookiekeythatIshouldprobablyhandlebetterwithrandomstringsbutIjustneedsomethingquickfornow}
+    command: npm run dev
+
   # Database for the artists.
   art-gallery-artists-database:
     image: mongo:latest
@@ -115,3 +130,4 @@ volumes:
   art-gallery-artists-node_modules:
   art-gallery-artworks-node_modules:
   art-gallery-users-node_modules:
+  art-gallery-authentication-node_modules:
