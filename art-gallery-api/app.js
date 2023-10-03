@@ -172,6 +172,8 @@ var cookieSessionProperties = {
 
 app.use(session(cookieSessionProperties))
 
+// https://medium.com/swlh/session-management-in-nodejs-using-redis-as-session-store-64186112aa9
+
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());

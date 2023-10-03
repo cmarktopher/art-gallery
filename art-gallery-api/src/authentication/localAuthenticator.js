@@ -15,8 +15,8 @@ const localAuthenticator = (container) => {
     passport.deserializeUser(async (id, done) => {
     
         // Get the user via the id
-        var currentUser = await userDataAccessObject.getUserById(id);
-
+        var currentUser = await authenticationService.requestUserById(id);
+        
         done(null, currentUser);
     });
     
