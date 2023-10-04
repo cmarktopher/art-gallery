@@ -56,7 +56,7 @@ const userRoutes = (container) => {
      *              500:
      *                  $ref: '#/components/responses/InternalServerError' 
      */
-    router.get('/:id', (req, res, next) => userController.getUserByID(req, res, next));
+    router.get('/:id', checkAuthenticated, checkAdminAuthorized, (req, res, next) => userController.getUserByID(req, res, next));
     
     /**
      * @swagger
@@ -85,8 +85,66 @@ const userRoutes = (container) => {
      *              500:
      *                  $ref: '#/components/responses/InternalServerError' 
      */
-    router.get('/username/:userName', (req, res, next) => userController.getUserByUserName(req, res, next));
+    router.get('/username/:userName', checkAuthenticated, checkAdminAuthorized, (req, res, next) => userController.getUserByUserName(req, res, next));
     
+    /**
+     * @swagger
+     * /users/{id}:
+     *      get:
+     *          tags:
+     *              - Users
+     *          summary: Retrieve a user by Id for internal environment.
+     *          description: This will retrieve a user based on an Id from the database.
+     *          parameters:
+     *              - in: path
+     *                name: _id
+     *                schema: 
+     *                  type: string
+     *                required: true
+     *                description: Unique identifier of the user.
+     *          responses:
+     *              200:
+     *                  description: A user.
+     *                  content:
+     *                      application/json:
+     *                          schema:
+     *                              $ref: '#/components/schemas/User'
+     *              404:
+     *                  $ref: '#/components/responses/NotFound'
+     *              500:
+     *                  $ref: '#/components/responses/InternalServerError' 
+     */
+    router.get('/internal/:id', (req, res, next) => userController.getUserByID(req, res, next));
+    
+    /**
+     * @swagger
+     * /users/username{username}:
+     *      get:
+     *          tags:
+     *              - Users
+     *          summary: Retrieve a user by username for internal environment.
+     *          description: This will retrieve a user based on an username from the database.
+     *          parameters:
+     *              - in: path
+     *                name: userName
+     *                schema: 
+     *                  type: string
+     *                required: true
+     *                description: Username of the user.
+     *          responses:
+     *              200:
+     *                  description: A user.
+     *                  content:
+     *                      application/json:
+     *                          schema:
+     *                              $ref: '#/components/schemas/User'
+     *              404:
+     *                  $ref: '#/components/responses/NotFound'
+     *              500:
+     *                  $ref: '#/components/responses/InternalServerError' 
+     */
+    router.get('/internal/username/:userName',  (req, res, next) => userController.getUserByUserName(req, res, next));
+
     /**
      * @swagger
      * /users:

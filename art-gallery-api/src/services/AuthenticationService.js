@@ -7,18 +7,33 @@ class AuthenticationService {
      */
     async requestUserByUserName(userName) {
 
-        const userMicroServiceResponse = await axios.get(`http://art-gallery-api-users:3000/users/username/${userName}`);
-        const userMicroServiceData = userMicroServiceResponse.data;
-        
-        return userMicroServiceData;
+        try {
+            const userMicroServiceResponse = await axios.get(`http://art-gallery-api-users:3000/users/internal/username/${userName}`);
+            const userMicroServiceData = userMicroServiceResponse.data;
+            
+            return userMicroServiceData;
+
+        } catch (error) {
+            
+            console.log(error);
+            return null;
+        }
+
     }
 
     async requestUserById(id) {
 
-        const userMicroServiceResponse = await axios.get(`http://art-gallery-api-users:3000/users/username/${id}`);
-        const userMicroServiceData = userMicroServiceResponse.data;
-        
-        return userMicroServiceData;
+        try {
+
+            const userMicroServiceResponse = await axios.get(`http://art-gallery-api-users:3000/users/internal/${id}`);
+            const userMicroServiceData = userMicroServiceResponse.data;
+            return userMicroServiceData;
+
+        } catch (error) {
+            
+            console.log(error);
+            return null;
+        }
     }
 }
 

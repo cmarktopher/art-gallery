@@ -62,9 +62,11 @@ class ArtworkController {
                 return next(error);
             }
     
-            // If found an artwork, re-direct to get the resource
+            // Need to change this logic for the docker version since the static file middleware is not setup properly to handle serving files inside the artworks container.
             const artworkImagePath = foundArtwork.artworkPath.replace(/public/, "");
-            return res.redirect(`/${encodeURIComponent(artworkImagePath)}`);
+
+            // Don't really like doing it this way but I need a quick fix for now - will just send the file back directly (also, replacing the public above is redundant in this implementation).
+            res.sendFile(artworkImagePath, { root: path.join(__dirname, "../../public")});
         }
         catch (err) {
     

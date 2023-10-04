@@ -6,7 +6,7 @@
 var path = require('path');
 
 // Configs
-const { APP_PORT, APP_NAME, MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT, COOKIE_KEY } = require("./src/config/appConfig");
+const { APP_PORT, APP_NAME, MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT, COOKIE_KEY, REDIS_IP, REDIS_PORT } = require("./src/config/appConfig");
 
 // Swagger
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -32,7 +32,11 @@ var passport = require('passport');
 var session = require('express-session');
 
 // Hashing
-var BcryptHasher = require('./src/hasher/BcryptHasher')
+var BcryptHasher = require('./src/hasher/BcryptHasher');
+
+// Redis
+const redis = require("redis");
+const RedisStore = require("connect-redis").default;
 
 // Routes
 var indexRouter = require('./src/routes/index');
@@ -90,61 +94,65 @@ container.register({
 //**********************************************************************************************************************************************************************************************************************************************/
 
 // Database setup
-mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/art-gallery?authSource=admin`)
-.then(() => { 
-  
-  console.log(`${APP_NAME} has successfully connected to ${MONGO_IP} Mongo Database`)
+// TODO Remove conditions after application has been split properly for different containers.
+if (APP_NAME !== "art-gallery-authentication-api") {
 
-  // TODO Move this logic to a different layer - perhaps a class in the service layer?
-  async function setDefaultAdminUser(){
+  mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/art-gallery?authSource=admin`)
+    .then(() => { 
+      
+      console.log(`${APP_NAME} has successfully connected to ${MONGO_IP} Mongo Database`)
 
-    const firstName = "developmentAdminFirstName";
-    const lastName = "developmentAdminLastName";
-    const userName = "developmentAdminUserName";
-    const password = "developmentAdminPassword";
-    const role = "Admin";
+      // TODO Move this logic to a different layer - perhaps a class in the service layer?
+      async function setDefaultAdminUser(){
 
-    const user = {
-        "firstName": firstName,
-        "lastName": lastName,
-        "userName": userName,
-        "password": password,
-        "role": role,
-    }
-    
+        const firstName = "developmentAdminFirstName";
+        const lastName = "developmentAdminLastName";
+        const userName = "developmentAdminUserName";
+        const password = "developmentAdminPassword";
+        const role = "Admin";
 
-    // Resolve the data access object implementation
-    const userDataAccessObject = container.resolve("userDataAccessObject");
+        const user = {
+            "firstName": firstName,
+            "lastName": lastName,
+            "userName": userName,
+            "password": password,
+            "role": role,
+        }
+        
 
-    // Only add this default admin user if doesn't already exist - the only time they won't exist is if this app is run on a new device or if the docker volume is deleted.
-    let foundAdminUser = await userDataAccessObject.getUserByUserName(userName);
+        // Resolve the data access object implementation
+        const userDataAccessObject = container.resolve("userDataAccessObject");
 
-    if (foundAdminUser === null) {
+        // Only add this default admin user if doesn't already exist - the only time they won't exist is if this app is run on a new device or if the docker volume is deleted.
+        let foundAdminUser = await userDataAccessObject.getUserByUserName(userName);
 
-      // Resolve the hasher
-      let hasher = container.resolve("hasher");
+        if (foundAdminUser === null) {
 
-      // Hash the password
-      const hashedPassword = await hasher.hashPassword(user.password);
+          // Resolve the hasher
+          let hasher = container.resolve("hasher");
 
-      // Create the user data and add the newly hashed password as the password before sending it to the data access object
-      const hashedUser = {
-        ...user,
-        password: hashedPassword
-      };
+          // Hash the password
+          const hashedPassword = await hasher.hashPassword(user.password);
 
-      await userDataAccessObject.addNewUser(hashedUser);
-    }
-  }
-  
-  // Add a default admin user only if in development mode and in user microservice.
-  // In terms of the microservice system, this needs to be handled better later on - maybe a specific app.js for users etc.
-  if (process.env.NODE_ENV === "development" && APP_NAME === "art-gallery-users-api") {
+          // Create the user data and add the newly hashed password as the password before sending it to the data access object
+          const hashedUser = {
+            ...user,
+            password: hashedPassword
+          };
 
-    setDefaultAdminUser();
-  }
-})
-.catch((e) => console.log(e));
+          await userDataAccessObject.addNewUser(hashedUser);
+        }
+      }
+      
+      // Add a default admin user only if in development mode and in user microservice.
+      // TODO  In terms of the microservice system, this needs to be handled better later on - maybe a specific app.js for users etc.
+      if (process.env.NODE_ENV === "development" && APP_NAME === "art-gallery-users-api") {
+
+        setDefaultAdminUser();
+      }
+    })
+  .catch((e) => console.log(e));
+}
 
 //**********************************************************************************************************************************************************************************************************************************************/
 // App
@@ -162,8 +170,26 @@ app.use(
 //passportAuthenticator(container);
 localAuthenticator(container);
 
+app.set('trust proxy', 1);
+
+// Redis
+const redisClient = redis.createClient({
+  url: `redis://@${REDIS_IP}:${REDIS_PORT}`
+});
+
+redisClient
+  .on("connect", () => {
+    console.log(`${APP_NAME} has successfully connected to Redis Server`)
+  })
+  .on("error", err => {
+    console.log(`${APP_NAME} has failed to connect to Redis Server`)
+})
+
+let redisStore = new RedisStore({client: redisClient})
+
 // Cookie Session
 var cookieSessionProperties = {
+  store: redisStore,
   secret: COOKIE_KEY,
   resave: false,
   saveUninitialized: true,
@@ -171,6 +197,8 @@ var cookieSessionProperties = {
 }
 
 app.use(session(cookieSessionProperties))
+
+redisClient.connect();
 
 // Passport
 app.use(passport.initialize());

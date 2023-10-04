@@ -29,7 +29,10 @@ services:
       - MONGO_USER=${MONGO_USER:-mongouser}
       - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
       - COOKIE_KEY=${COOKIE_KEY:-superawesomecookiekeythatIshouldprobablyhandlebetterwithrandomstringsbutIjustneedsomethingquickfornow}
+      - REDIS_IP=${REDIS_IP:-art-gallery-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
     depends_on:
+      - art-gallery-redis
       - art-gallery-artists-database
     command: npm run dev
 
@@ -50,7 +53,10 @@ services:
       - MONGO_USER=${MONGO_USER:-mongouser}
       - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
       - COOKIE_KEY=${COOKIE_KEY:-superawesomecookiekeythatIshouldprobablyhandlebetterwithrandomstringsbutIjustneedsomethingquickfornow}
+      - REDIS_IP=${REDIS_IP:-art-gallery-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
     depends_on:
+      - art-gallery-redis
       - art-gallery-artworks-database
     command: npm run dev
 
@@ -71,7 +77,10 @@ services:
       - MONGO_USER=${MONGO_USER:-mongouser}
       - MONGO_PASSWORD=${MONGO_PASSWORD:-password}
       - COOKIE_KEY=${COOKIE_KEY:-superawesomecookiekeythatIshouldprobablyhandlebetterwithrandomstringsbutIjustneedsomethingquickfornow}
+      - REDIS_IP=${REDIS_IP:-art-gallery-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
     depends_on:
+      - art-gallery-redis
       - art-gallery-users-database
     command: npm run dev
 
@@ -88,6 +97,10 @@ services:
       - APP_NAME=${APP_NAME:-art-gallery-authentication-api}
       - NODE_ENV=${NODE_ENV:-development} 
       - COOKIE_KEY=${COOKIE_KEY:-superawesomecookiekeythatIshouldprobablyhandlebetterwithrandomstringsbutIjustneedsomethingquickfornow}
+      - REDIS_IP=${REDIS_IP:-art-gallery-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+    depends_on:
+      - art-gallery-redis
     command: npm run dev
 
   # Database for the artists.
@@ -122,6 +135,10 @@ services:
       - art-gallery-users-mongo-db:/data/db
     ports:
       - "27020:27017" # Remove port binding once we know this is working - Using this with mongo DB Compass to check data.
+
+  # Redis for managing express sessions.
+  art-gallery-redis:
+    image: redis:latest
 
 volumes:
   art-gallery-artists-mongo-db:

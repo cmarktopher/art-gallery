@@ -79,7 +79,7 @@ const authenticationRoutes = () => {
                 return next(err);
             }
 
-            res.redirect(redirectionUrl.logOutRedirection);
+            res.status(200).send("Logout was successful.");
         });
     });
 
