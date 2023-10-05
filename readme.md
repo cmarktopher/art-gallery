@@ -88,3 +88,7 @@ I had this initially but there were a few complications with adding this as a se
 ### Running Python scripts.
 
 Just run the Python script via the play button.
+
+## Art Gallery - Distributed System - 2
+
+The only thing to add for this version is that microservices was implemented for artists, artworks, users and authentication. Nginx and redis services were also included, with modifications to main application code to handle extra requirements for services to work together properly.
